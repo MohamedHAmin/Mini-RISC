@@ -8,3 +8,165 @@ z2
 !i10f 100
 cModel Technology
 dC:/intelFPGA/18.1
+Efetch
+Z0 w1681479587
+Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
+Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
+Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
+Z4 dD:/CUFE/S23/CMPN301/project/Mini-RISC
+Z5 8D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+Z6 FD:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+l0
+L5
+VD4k5mN7@@OOdD[hi177Xa1
+!s100 @;N?b91RazZ01?Sk@NBBe1
+Z7 OV;C;10.5b;63
+32
+Z8 !s110 1681481427
+!i10b 1
+Z9 !s108 1681481427.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
+Z11 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
+!i113 1
+Z12 o-work work -2002 -explicit
+Z13 tExplicit 1 CvgOpt 0
+Afetch_imp
+R1
+R2
+R3
+DEx4 work 5 fetch 0 22 D4k5mN7@@OOdD[hi177Xa1
+l34
+L23
+V`<Io::4DV8]8SJYonDPmV1
+!s100 ?9IF^n?gf9@L[=iBCU=m73
+R7
+32
+R8
+!i10b 1
+R9
+R10
+R11
+!i113 1
+R12
+R13
+Ememory
+Z14 w1681480088
+R1
+R2
+R3
+R4
+Z15 8D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd
+Z16 FD:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd
+l0
+L5
+V;cz<fhzz3P0IlQJ5`PzR<3
+!s100 cB>9To0h5?9:e6R;n4zh93
+R7
+32
+Z17 !s110 1681481422
+!i10b 1
+Z18 !s108 1681481422.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd|
+Z20 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd|
+!i113 1
+R12
+R13
+Amemory_imp
+R1
+R2
+R3
+DEx4 work 6 memory 0 22 ;cz<fhzz3P0IlQJ5`PzR<3
+l19
+L15
+VV[<ED4EW]_0ZF7VCe;A[d3
+!s100 2iPJiZiigJHOBT`=h6W>90
+R7
+32
+R17
+!i10b 1
+R18
+R19
+R20
+!i113 1
+R12
+R13
+Ereg
+Z21 w1681481413
+R2
+R3
+R4
+Z22 8D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
+Z23 FD:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
+l0
+L4
+V5PcD1h^^OQY[FGm=WjHa03
+!s100 P`]_V[1_k;Q]b2l4icD]Z2
+R7
+32
+Z24 !s110 1681481417
+!i10b 1
+Z25 !s108 1681481417.000000
+Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
+Z27 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
+!i113 1
+R12
+R13
+Areg_imp
+R2
+R3
+DEx4 work 3 reg 0 22 5PcD1h^^OQY[FGm=WjHa03
+l12
+L10
+VdKJWaSgDhg]Q^T9Yll_0O0
+!s100 RYLaLL5Ja]]cX965c7fH_2
+R7
+32
+R24
+!i10b 1
+R25
+R26
+R27
+!i113 1
+R12
+R13
+Eregfile
+Z28 w1681479335
+R1
+R2
+R3
+R4
+Z29 8D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd
+Z30 FD:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd
+l0
+L5
+VZZG0>fZ?;0?z8::D[F4G10
+!s100 mclVER[8BM]c6R79^:2le2
+R7
+32
+Z31 !s110 1681481339
+!i10b 1
+Z32 !s108 1681481339.000000
+Z33 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd|
+Z34 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd|
+!i113 1
+R12
+R13
+Aregfile_imp
+R1
+R2
+R3
+DEx4 work 7 regfile 0 22 ZZG0>fZ?;0?z8::D[F4G10
+l27
+L17
+VYSjUHF6UOhSOHY[oOKoRk3
+!s100 9KD0IJ0[G@J3oSz6iZh^A2
+R7
+32
+R31
+!i10b 1
+R32
+R33
+R34
+!i113 1
+R12
+R13

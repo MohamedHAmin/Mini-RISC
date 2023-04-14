@@ -1,0 +1,42 @@
+D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd {1 {vcom -work work -2002 -explicit -stats=none {D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Memory
+-- Compiling architecture Memory_IMP of Memory
+
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd {1 {vcom -work work -2002 -explicit -stats=none {D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Compiling entity Reg
+-- Compiling architecture Reg_IMP of Reg
+
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd {2 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Fetch
+-- Compiling architecture Fetch_IMP of Fetch
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(48): (vcom-1272) Length of expected is 3; length of slice name is 4.
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(49): (vcom-1272) Length of expected is 16; length of actual is 3.
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(51): (vcom-1272) Length of expected is 16; length of actual is 32.
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(51): (vcom-1167) Index value 32 (of type ieee.std_logic_1164.STD_LOGIC_VECTOR) is out of range 31 downto 0.
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(51): (vcom-1167) Index value 47 (of type ieee.std_logic_1164.STD_LOGIC_VECTOR) is out of range 31 downto 0.
+** Warning: D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd(57): (vcom-1272) Length of expected is 4; length of actual is 3.
+
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd {1 {vcom -work work -2002 -explicit -stats=none {D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd}
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity RegFile
+-- Compiling architecture RegFile_IMP of RegFile
+
+} {} {}}

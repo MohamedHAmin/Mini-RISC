@@ -29,7 +29,7 @@ ARCHITECTURE Fetch_IMP OF Fetch IS
 	SIGNAL immsig : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL pcsigout : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL pcsigin : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
-	SIGNAL add4sig : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+	SIGNAL add2sig : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL Enable : STD_LOGIC := '1';
 BEGIN
 	Enable <= '1' WHEN rst = '1'
@@ -42,15 +42,16 @@ BEGIN
     -- bit 16 & 17 are not used
     immsig <= Ins(15 DOWNTO 0);
     
-	add4sig <= STD_LOGIC_VECTOR(unsigned(pcsigout) + 1);
+	add2sig <= STD_LOGIC_VECTOR(unsigned(pcsigout) + 2);
 	Address <= (OTHERS => '0') WHEN rst = '1'
 		ELSE
 		pcsigout(3 DOWNTO 0);
 	pcsigin <= JumpAddress WHEN CheckedJump = '1'
 		ELSE
-		Ins (47 downto 32) & Ins (15 downto 0) WHEN rst = '1' OR intr = '1'
+        -- ** we should handle the case of reset and interrupt here**
+		--Ins (47 downto 32) & Ins (15 downto 0) WHEN rst = '1' OR intr = '1'
 		ELSE
-		add4sig;
+		add2sig;
 	PROCESS (clk)
 	BEGIN
 		IF rising_edge(clk) AND intr = '0' THEN

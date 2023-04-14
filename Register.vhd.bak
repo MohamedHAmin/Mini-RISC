@@ -1,13 +1,12 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-
-ENTITY Reg IS
+ENTITY Register IS
 	PORT (
 		d : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 		clk, rst, enable : IN STD_LOGIC;
 		q : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
-END Reg;
-ARCHITECTURE Reg_IMP OF Reg IS
+END ENTITY Reg;
+ARCHITECTURE Reg_IMP OF Register IS
 	SIGNAL wire : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 BEGIN
 	wire <= d;
