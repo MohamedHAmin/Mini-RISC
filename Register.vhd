@@ -1,22 +1,27 @@
-LIBRARY ieee;
-USE ieee.std_logic_1164.ALL;
+library IEEE;
+use IEEE.std_logic_1164.all;
 
-ENTITY Reg IS
-	PORT (
-		d : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-		clk, rst, enable : IN STD_LOGIC;
-		q : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+--Used for the fetch_decode reg, decode_execute reg, writeback reg
+ENTITY Reg IS 
+GENERIC (N : integer := 16);
+PORT( Clk,Rst,en : IN std_logic;
+ d : IN std_logic_vector(N-1 DOWNTO 0);
+ q : OUT std_logic_vector(N-1 DOWNTO 0));
 END Reg;
-ARCHITECTURE Reg_IMP OF Reg IS
-	SIGNAL wire : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+
+
+ARCHITECTURE myReg OF Reg 
+IS
 BEGIN
-	wire <= d;
-	PROCESS (clk, rst)
-	BEGIN
-		IF rst = '1'THEN
-			q <= (OTHERS => '0');
-		ELSIF falling_edge(clk) AND enable = '1' THEN
-			q <= wire;
-		END IF;
-	END PROCESS;
-END Reg_IMP;
+PROCESS (Clk,Rst)
+BEGIN
+IF Rst = '1' THEN
+q <= (OTHERS=>'0');
+ELSIF rising_edge(Clk) AND en='1' THEN
+        q <= d;
+    
+END IF;
+END PROCESS;
+END myReg;
+
+

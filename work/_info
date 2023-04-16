@@ -8,37 +8,37 @@ z2
 !i10f 100
 cModel Technology
 dC:/intelFPGA/18.1
-Efetch
-Z0 w1681479587
+Ealu
+Z0 w1681684734
 Z1 DPx4 ieee 11 numeric_std 0 22 :ASDNFgHXf_ih3J@9F3Ze1
 Z2 DPx3 std 6 textio 0 22 zE1`LPoLg^DX3Oz^4Fj1K3
 Z3 DPx4 ieee 14 std_logic_1164 0 22 eNV`TJ_GofJTzYa?f<@Oe1
 Z4 dD:/CUFE/S23/CMPN301/project/Mini-RISC
-Z5 8D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
-Z6 FD:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+Z5 8D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd
+Z6 FD:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd
 l0
 L5
-VD4k5mN7@@OOdD[hi177Xa1
-!s100 @;N?b91RazZ01?Sk@NBBe1
+VU6UQOfTE<0N^CbHmS@B`N0
+!s100 CNL0JW1RbHR2b=TOzXe0W2
 Z7 OV;C;10.5b;63
 32
-Z8 !s110 1681481427
+Z8 !s110 1681686543
 !i10b 1
-Z9 !s108 1681481427.000000
-Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
-Z11 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
+Z9 !s108 1681686543.000000
+Z10 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd|
+Z11 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd|
 !i113 1
 Z12 o-work work -2002 -explicit
 Z13 tExplicit 1 CvgOpt 0
-Afetch_imp
+Aalu_imp
 R1
 R2
 R3
-DEx4 work 5 fetch 0 22 D4k5mN7@@OOdD[hi177Xa1
-l34
-L23
-V`<Io::4DV8]8SJYonDPmV1
-!s100 ?9IF^n?gf9@L[=iBCU=m73
+DEx4 work 3 alu 0 22 U6UQOfTE<0N^CbHmS@B`N0
+l19
+L18
+Vm]VdcgaVP[2iC@im9FM?03
+!s100 ;Q:7]ao`c6@76SP8j8AjX2
 R7
 32
 R8
@@ -49,37 +49,37 @@ R11
 !i113 1
 R12
 R13
-Ememory
-Z14 w1681480088
+Efetch
+Z14 w1681686536
 R1
 R2
 R3
 R4
-Z15 8D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd
-Z16 FD:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd
+Z15 8D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+Z16 FD:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
 l0
 L5
-V;cz<fhzz3P0IlQJ5`PzR<3
-!s100 cB>9To0h5?9:e6R;n4zh93
+V]mFbY<4P:_b:49:cGzB2A1
+!s100 [38I]md?4]z>72PRdBb;81
 R7
 32
-Z17 !s110 1681481422
+Z17 !s110 1681686544
 !i10b 1
-Z18 !s108 1681481422.000000
-Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd|
-Z20 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\Memory.vhd|
+Z18 !s108 1681686544.000000
+Z19 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
+Z20 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd|
 !i113 1
 R12
 R13
-Amemory_imp
+Afetch_imp
 R1
 R2
 R3
-DEx4 work 6 memory 0 22 ;cz<fhzz3P0IlQJ5`PzR<3
-l19
-L15
-VV[<ED4EW]_0ZF7VCe;A[d3
-!s100 2iPJiZiigJHOBT`=h6W>90
+DEx4 work 5 fetch 0 22 ]mFbY<4P:_b:49:cGzB2A1
+l42
+L21
+V;^^imQQ;H3@@cOZ8KK2A53
+!s100 j>]i`<ci@GocmKa37oe<^3
 R7
 32
 R17
@@ -90,24 +90,124 @@ R20
 !i113 1
 R12
 R13
-Ereg
-Z21 w1681481413
+Einstruction_cache
+Z21 w1681678424
+R1
 R2
 R3
 R4
-Z22 8D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
-Z23 FD:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
+Z22 8D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd
+Z23 FD:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd
 l0
-L4
-V5PcD1h^^OQY[FGm=WjHa03
-!s100 P`]_V[1_k;Q]b2l4icD]Z2
+L6
+VhhbW5WV5dR4;77kLe9VE`2
+!s100 @Vof>6JQLb^0Q]Xm=95Y@0
 R7
 32
-Z24 !s110 1681481417
+R17
 !i10b 1
-Z25 !s108 1681481417.000000
-Z26 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
-Z27 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
+R18
+Z24 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd|
+Z25 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd|
+!i113 1
+R12
+R13
+Ainstruction_cache_imp
+R1
+R2
+R3
+DEx4 work 17 instruction_cache 0 22 hhbW5WV5dR4;77kLe9VE`2
+l20
+L16
+V?zdFA9lfJ_PfY8PCWBzd50
+!s100 KLOoVNdXIYf6@]ldDa0:01
+R7
+32
+R17
+!i10b 1
+R18
+R24
+R25
+!i113 1
+R12
+R13
+Ememory
+Z26 w1681675857
+R1
+R2
+R3
+R4
+Z27 8D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd
+Z28 FD:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd
+l0
+L5
+VKB8EoWJKCB_iE7:<PTJQ00
+!s100 egUGSof[]TXb=U9Z^D1>E3
+R7
+32
+R17
+!i10b 1
+R18
+Z29 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd|
+Z30 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd|
+!i113 1
+R12
+R13
+Amemory_imp
+R1
+R2
+R3
+DEx4 work 6 memory 0 22 KB8EoWJKCB_iE7:<PTJQ00
+l19
+L15
+VV[<ED4EW]_0ZF7VCe;A[d3
+!s100 2iPJiZiigJHOBT`=h6W>90
+R7
+32
+R17
+!i10b 1
+R18
+R29
+R30
+!i113 1
+R12
+R13
+Ereg
+Z31 w1681682122
+R2
+R3
+R4
+Z32 8D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd
+Z33 FD:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd
+l0
+L5
+VhA3MGI3gMoU0_hGSGS;>E0
+!s100 XEGhAWg;YTEBa62>Dnh[C3
+R7
+32
+R17
+!i10b 1
+R18
+Z34 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd|
+Z35 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd|
+!i113 1
+R12
+R13
+Amyreg
+R2
+R3
+Z36 DEx4 work 3 reg 0 22 hA3MGI3gMoU0_hGSGS;>E0
+l15
+L13
+Z37 VHVgf?I2BQ]bZUHdiRo10o3
+Z38 !s100 A1SHU:<T5FO>?n5VeDPT63
+R7
+32
+R17
+!i10b 1
+R18
+R34
+R35
 !i113 1
 R12
 R13
@@ -121,33 +221,36 @@ VdKJWaSgDhg]Q^T9Yll_0O0
 !s100 RYLaLL5Ja]]cX965c7fH_2
 R7
 32
-R24
+!s110 1681481417
 !i10b 1
-R25
-R26
-R27
+!s108 1681481417.000000
+!s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
+!s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd|
 !i113 1
 R12
 R13
+FD:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
+w1681481413
+8D:\CUFE\S23\CMPN301\project\Mini-RISC\Register.vhd
 Eregfile
-Z28 w1681479335
+Z39 w1681481438
 R1
 R2
 R3
 R4
-Z29 8D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd
-Z30 FD:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd
+Z40 8D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd
+Z41 FD:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd
 l0
 L5
 VZZG0>fZ?;0?z8::D[F4G10
 !s100 mclVER[8BM]c6R79^:2le2
 R7
 32
-Z31 !s110 1681481339
+R17
 !i10b 1
-Z32 !s108 1681481339.000000
-Z33 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd|
-Z34 !s107 D:\CUFE\S23\CMPN301\project\Mini-RISC\RegFile.vhd|
+R18
+Z42 !s90 -reportprogress|300|-work|work|-2002|-explicit|-stats=none|D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd|
+Z43 !s107 D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd|
 !i113 1
 R12
 R13
@@ -162,11 +265,11 @@ VYSjUHF6UOhSOHY[oOKoRk3
 !s100 9KD0IJ0[G@J3oSz6iZh^A2
 R7
 32
-R31
+R17
 !i10b 1
-R32
-R33
-R34
+R18
+R42
+R43
 !i113 1
 R12
 R13
