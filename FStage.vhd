@@ -6,7 +6,10 @@ ENTITY Fetch IS
 	PORT (
 		clk : IN STD_LOGIC;
 		rst : IN STD_LOGIC;
-		Enable_Buffer : IN STD_LOGIC;
+		Enable_FBuffer : IN STD_LOGIC;
+
+		JumpAddress : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+		CheckedJump : IN STD_LOGIC;
 		-- intr : IN STD_LOGIC;
 		-- Ins : IN STD_LOGIC_VECTOR(31 DOWNTO 0);
 		-- PC_Enable : IN STD_LOGIC;
@@ -15,6 +18,7 @@ ENTITY Fetch IS
 		RS : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		RT : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 		RD : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+		IsImmediate : OUT STD_LOGIC;
 		Imm : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
 END ENTITY Fetch;
 
@@ -69,12 +73,17 @@ BEGIN
 				temp2 := Cache(to_integer(unsigned((pcsigout))) + 1);
 				inst := temp1 & temp2;
 
-				if inst(16) = '0' then
+				-- inst(16) is a bit that indicates if the instruction has immediate value or not
+				if inst(16) = '0' then     -- if the instruction has no immediate value
 					pcsigin := STD_LOGIC_VECTOR(unsigned(pcsigout) + 1);
-				elsif inst(16) = '1' then
+				elsif inst(16) = '1' then  -- if the instruction has immediate value
 					pcsigin := STD_LOGIC_VECTOR(unsigned(pcsigout) + 2);
 				end if;
 				
+				if CheckedJump = '1' then   
+					pcsigin := JumpAddress;
+				end if;
+
 				pcsigout := pcsigin;
 				-- END IF;
 			END IF;
@@ -83,12 +92,13 @@ BEGIN
 		Inst_signal <= inst;
 	END PROCESS;
 
-	Fetch_Decode_buffer : Reg GENERIC MAP (32) PORT MAP (clk,rst,Enable_Buffer,Inst_signal,bufferOut);
+	Fetch_Decode_buffer : Reg GENERIC MAP (32) PORT MAP (clk,rst,Enable_FBuffer,Inst_signal,bufferOut);
 	Family <= bufferOut(31 DOWNTO 30);
 	Opcode <= bufferOut(29 DOWNTO 27);
     RS <= bufferOut(26 DOWNTO 24);
     RT <= bufferOut(23 DOWNTO 21);
     RD <= bufferOut(20 DOWNTO 18);
+	IsImmediate <= bufferOut(16);
     IMM <= bufferOut(15 DOWNTO 0);
 
     
