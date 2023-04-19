@@ -26,7 +26,6 @@ ARCHITECTURE Fetch_IMP OF Fetch IS
 
 	TYPE Instruction_cache IS ARRAY(0 TO 1023) of std_logic_vector(15 DOWNTO 0);
 	
-
 	COMPONENT Reg IS 
 		GENERIC (N : integer := 16);
 		PORT( Clk,Rst,en : IN std_logic;
@@ -101,5 +100,4 @@ BEGIN
 	IsImmediate <= bufferOut(16);
     IMM <= bufferOut(15 DOWNTO 0);
 
-    
 END Fetch_IMP;

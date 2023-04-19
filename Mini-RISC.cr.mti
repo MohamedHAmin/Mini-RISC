@@ -1,24 +1,20 @@
-D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/Register.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity Reg
--- Compiling architecture myReg of Reg
-
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd
+D:/CUFE/S23/CMPN301/project/Mini-RISC/ControlUnit.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/ControlUnit.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
 -- Loading package NUMERIC_STD
--- Compiling entity Instruction_cache
--- Compiling architecture Instruction_cache_IMP of Instruction_cache
+-- Compiling entity CU
+-- Compiling architecture CUArch of CU
 
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/EXStage.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/EXStage.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
-** Error (suppressible): D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd(2): (vcom-1491) Empty source files.
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Execute
+-- Compiling architecture ExArch of Execute
 
 } {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/Memory.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -29,15 +25,32 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity Memory
 -- Compiling architecture Memory_IMP of Memory
 
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/EXStage.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/EXStage.vhd
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
-** Error (suppressible): D:/CUFE/S23/CMPN301/project/Mini-RISC/EXStage.vhd(2): (vcom-1491) Empty source files.
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity MemoryStage
+** Error: D:/CUFE/S23/CMPN301/project/Mini-RISC/MStage.vhd(10): near ")": (vcom-1576) expecting IDENTIFIER.
 
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/ControlUnit.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/ControlUnit.vhd
+} {8.0 9.0} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/InstructionMem.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
-** Error (suppressible): D:/CUFE/S23/CMPN301/project/Mini-RISC/ControlUnit.vhd(1): (vcom-1491) Empty source files.
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Instruction_cache
+-- Compiling architecture Instruction_cache_IMP of Instruction_cache
+
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/FStage.vhd
+Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity Fetch
+-- Compiling architecture Fetch_IMP of Fetch
 
 } {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/RegFile.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
@@ -48,7 +61,7 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Compiling entity RegFile
 -- Compiling architecture RegFile_IMP of RegFile
 
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd
+} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
 -- Loading package TEXTIO
@@ -56,15 +69,22 @@ Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  
 -- Loading package NUMERIC_STD
 -- Compiling entity ALU
 -- Compiling architecture ALU_IMP of ALU
+** Error: D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd(50): Cannot read output "Result".
+	VHDL 2008 allows reading outputs.
+	This facility is enabled by compiling with -2008.
+** Error: D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd(52): Cannot read output "Result".
+	VHDL 2008 allows reading outputs.
+	This facility is enabled by compiling with -2008.
+** Error: D:/CUFE/S23/CMPN301/project/Mini-RISC/ALU.vhd(54): VHDL Compiler exiting
 
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/M2Stage.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/M2Stage.vhd
+} {9.0 10.0 12.0 13.0 15.0 16.0} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/DStage.vhd {1 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/DStage.vhd
 Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
 -- Loading package STANDARD
-** Error (suppressible): D:/CUFE/S23/CMPN301/project/Mini-RISC/M2Stage.vhd(2): (vcom-1491) Empty source files.
-
-} {} {}} D:/CUFE/S23/CMPN301/project/Mini-RISC/DStage.vhd {0 {vcom -work work -2002 -explicit -stats=none D:/CUFE/S23/CMPN301/project/Mini-RISC/DStage.vhd
-Model Technology ModelSim - Intel FPGA Edition vcom 10.5b Compiler 2016.10 Oct  5 2016
--- Loading package STANDARD
-** Error (suppressible): D:/CUFE/S23/CMPN301/project/Mini-RISC/DStage.vhd(1): (vcom-1491) Empty source files.
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package std_logic_arith
+-- Loading package NUMERIC_STD
+-- Compiling entity Decode
+-- Compiling architecture DecodeArch of Decode
 
 } {} {}}

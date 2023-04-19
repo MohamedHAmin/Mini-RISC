@@ -44,24 +44,29 @@ BEGIN
     
     Branch <= Family(1) and Family(0);  -- if family = 11 then branch = 1 (jmp instruction), else branch = 0
 
-    MEMRead <= '1' when (Family = "10" and OpCode = "011") or (Family = "10" and OpCode = "001") or (Family = "11" and OpCode = "001") or (Family = "11" and OpCode = "101") -- when load, pop, Ret,RTI instruction
-    else '0'; 
-    MEMWrite <= '1' when (Family = "10" and OpCode = "100") or (Family = "10" and OpCode = "000") or (Family = "11" and OpCode = "000") -- when store, push, Call instruction
-    else '0';
+    MEMRead <= '1'  when (Family = "10" and OpCode = "011") 
+                    or   (Family = "10" and OpCode = "001")  
+                    or   (Family = "11" and OpCode = "001")  
+                    or   (Family = "11" and OpCode = "101") -- when load, pop, Ret, RTI instruction
+                    else '0'; 
+    MEMWrite <= '1' when (Family = "10" and OpCode = "100") 
+                    or   (Family = "10" and OpCode = "000") 
+                    or   (Family = "11" and OpCode = "000") -- when store, push, Call instruction
+                    else '0';
 
     RegWrite <= '1' when (Family = "00" and OpCode = "011") -- when NOT
                     or   (Family = "00" and OpCode = "100") -- when INC
                     or   (Family = "00" and OpCode = "101") -- when DEC
                     or   (Family = "00" and OpCode = "110") -- when IN
-                    or   (Family = "01")  -- when R-type instructions
+                    or   (Family = "01")                    -- when R-type instructions
                     or   (Family = "10" and OpCode = "001") -- when POP
                     or   (Family = "10" and OpCode = "010") -- when LDM
                     or   (Family = "10" and OpCode = "011") -- when LDD
-    else '0';     
+                    else '0';     
     
     MemTOReg <= '1' when (Family = "10" and OpCode = "001") -- when POP
                     or   (Family = "10" and OpCode = "011") -- when LDD
-    else '0';
+                    else '0';
 
     RegAddressSelector <= Family(1) and Family(0);
     MemAddressSelector <= OpCode(2) & OpCode(1);
