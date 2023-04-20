@@ -70,6 +70,7 @@ ARCHITECTURE ExArch OF Execute IS
 	SIGNAL E_M1_Buffer_input: std_logic_vector(74 DOWNTO 0);
     SIGNAL E_M1_Buffer_result: std_logic_vector(74 DOWNTO 0);
     SIGNAL tempCCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
+    
 BEGIN
 
     op2Sig <= RDest when ALUsrc = '0' else Imm_16;

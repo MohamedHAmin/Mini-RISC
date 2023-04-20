@@ -35,7 +35,7 @@ BEGIN
 		ELSE
 			STD_LOGIC_VECTOR(unsigned(A) AND unsigned(B)) WHEN op = ("01100");  			-- AND
                               
-
+	
 	Carry <= '1' WHEN (STD_LOGIC_VECTOR(unsigned(A) + unsigned(B)) < A) AND (op = ("01010") OR op = ("01101") OR op = ("00100"))  -- ADD/ IADD / INC
 		--		For illustration:    11100
 		--			               + 00110			
