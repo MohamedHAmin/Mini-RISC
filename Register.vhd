@@ -18,7 +18,8 @@ BEGIN
 IF Rst = '1' THEN
 q <= (OTHERS=>'0');
 ELSIF rising_edge(Clk) AND en='1' THEN
-        q <= d;   
+        q <= d;
+    
 END IF;
 END PROCESS;
 END myReg;

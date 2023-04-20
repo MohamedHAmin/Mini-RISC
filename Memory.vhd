@@ -9,7 +9,8 @@ ENTITY Memory IS
 		MEMR : IN STD_LOGIC;
 		address : IN STD_LOGIC_VECTOR(9 DOWNTO 0);
 		datain : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
-		dataout : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
+		dataout : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+		SP : OUT STD_LOGIC_VECTOR(15 DOWNTO 0));
 END ENTITY Memory;
 
 ARCHITECTURE Memory_IMP OF Memory IS
@@ -26,4 +27,6 @@ BEGIN
 		END IF;
 	END PROCESS;
 	dataout <= Memory(to_integer(unsigned(address)));
+	-- SP <=  (OTHERS => '0') & address;
+	SP <=  (OTHERS => '0');
 END Memory_IMP;
