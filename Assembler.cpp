@@ -6,13 +6,12 @@
 #include <map>
 using namespace std;
 
-struct MemEntry
-{
-	int index;
-	string value;
+struct MemEntry{
+	int index;		// Location in memory
+	string value;	// Value of instruction in binary stored 16 bit by 16 bit
 };
 
-// Eight 16-bit general purpose registers
+// Eight 16-bit general purpose registers translated to binary
 string Get_Regitser_Index(string Reg_Name){
 	if      (Reg_Name == "R0" || Reg_Name == "r0") return "000";
 	else if (Reg_Name == "R1" || Reg_Name == "r1") return "001";
@@ -91,8 +90,7 @@ string HexToBin(string hexdec){
 		i++;
 		to_binary = to_binary + concated;
 	}
-	while (i < 4)
-	{
+	while (i < 4){
 		to_binary = "0000" + to_binary;
 		i++;
 	}
@@ -105,9 +103,9 @@ string HexToBin(string hexdec){
 // Operands[0]
 // Operands[1]
 // Operands[2]
-// Imm
-// isImm
-// D, T, S, I, O*
+// D, T, S, I
+// Here we have at most 3 operands (R destination, R target, R source)
+// we take the instruction and return the operands of it and the opcode (first 2 bits for family and last 3 bits for operation)
 string To_OPcode(string command, string *Operands){
 	if (command == "NOP"){
 		Operands[0] = "";
@@ -127,165 +125,142 @@ string To_OPcode(string command, string *Operands){
 		Operands[2] = "";
         return "00010";
 	}
-	else if (command == "NOT")
-	{
+	else if (command == "NOT"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "00011";
 	}
-	else if (command == "INC")
-	{
+	else if (command == "INC"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "00100";
 	}
-	else if (command == "DEC")
-	{
+	else if (command == "DEC"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "00101";
 	}
-	else if (command == "IN")
-	{
+	else if (command == "IN"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "00110";
 	}
-	else if (command == "OUT")
-	{
+	else if (command == "OUT"){
 		Operands[0] = "S";
 		Operands[1] = "";
 		Operands[2] = "";
         return "00111";
 	}
     /******************************/
-	else if (command == "MOV")
-	{
+	else if (command == "MOV"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "01000";
 	}
-	else if (command == "OR")
-	{
+	else if (command == "OR"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "T";
         return "01001";
 	}
-	else if (command == "ADD")
-	{
+	else if (command == "ADD"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "T";
         return "01010";
 	}
-	else if (command == "SUB")
-	{
+	else if (command == "SUB"){
 		Operands[0] = "D";
 		Operands[1] = "T";
 		Operands[2] = "S";
         return "01011";	
     }
-	else if (command == "AND")
-	{
+	else if (command == "AND"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "T";
         return "01100";
 	}
-	else if (command == "IADD")
-	{
+	else if (command == "IADD"){
 		Operands[0] = "D";
 		Operands[1] = "T";
 		Operands[2] = "I";
         return "";
 	}
     /******************************/
-	else if (command == "PUSH")
-	{
+	else if (command == "PUSH"){
 		Operands[0] = "S";
 		Operands[1] = "";
 		Operands[2] = "";
         return "10000";
 	}
-	else if (command == "POP")
-	{
+	else if (command == "POP"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "10001";
 	}
-	else if (command == "LDM")
-	{
+	else if (command == "LDM"){
 		Operands[0] = "D";
 		Operands[1] = "I";
 		Operands[2] = "";
         return "10010";
 	}
-	else if (command == "LDD")
-	{
+	else if (command == "LDD"){
 		Operands[0] = "D";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "10011";
 	}
-	else if (command == "STD")
-	{
+	else if (command == "STD"){
 		Operands[0] = "T";
 		Operands[1] = "S";
 		Operands[2] = "";
         return "10100";
 	}
     /******************************/
-    else if (command == "CALL")
-	{
+    else if (command == "CALL"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11000";
 	}
-    else if (command == "RET")
-	{
+    else if (command == "RET"){
 		Operands[0] = "";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11001";
 	}
-	else if (command == "JZ")
-	{
+	else if (command == "JZ"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11010";
 	}
-	else if (command == "JC")
-	{
+	else if (command == "JC"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11011";
 	}
-	else if (command == "JMP")
-	{
+	else if (command == "JMP"){
 		Operands[0] = "D";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11100";
 	}
-	else if (command == "RTI")
-	{
+	else if (command == "RTI"){
 		Operands[0] = "";
 		Operands[1] = "";
 		Operands[2] = "";
         return "11101";
 	}
-	else
-	{
+	else{
 		Operands[0] = "";
 		Operands[1] = "";
 		Operands[2] = "";
@@ -293,26 +268,25 @@ string To_OPcode(string command, string *Operands){
 	}
 }
 
+// This function reads a lines from the input file and 
 // returns -1 for wrong syntax line,
 // 0 for empty or commented lines,
 // 1 for meaningful lines
-int readLine(ifstream &inputFile, string *words)
-{
+int readLine(ifstream &inputFile, string *words){
 	char nextChar;
 	string line;
 	int counter = 0;
 	getline(inputFile, line, '\n');
-	while (!line.empty())
-	{
+	while (!line.empty()){
 		nextChar = line.front();
 		line.erase(0, 1);
+		// Skip if comment line
 		if (nextChar == '#')
 			break;
-		if (counter != 0 && (nextChar == ' ' || nextChar == '\t'))
-		{
+		// Skip white spaces
+		if (counter != 0 && (nextChar == ' ' || nextChar == '\t')){
 			nextChar = line.front();
-			while (!line.empty())
-			{
+			while (!line.empty()){
 				if (nextChar == '#')
 					break;
 				else if (nextChar != ' ' && nextChar != '\t')
@@ -321,28 +295,26 @@ int readLine(ifstream &inputFile, string *words)
 				nextChar = line.front();
 			}
 		}
-		else if (counter == 0 && (nextChar == ' ' || nextChar == '\t'))
-		{
+		// Here we consider a indentation in the beginning of the line
+		else if (counter == 0 && (nextChar == ' ' || nextChar == '\t')){
 			if (!words[0].empty())
 				counter++;
 			nextChar = line.front();
-			while (!line.empty())
-			{
+			while (!line.empty()){
 				if (isalnum(nextChar) || nextChar == '#')
 					break;
-				else if (nextChar != ' ')
+				else if (nextChar != ' ' && nextChar != '\t')
 					return -1;
 				line.erase(0, 1);
 				nextChar = line.front();
 			}
 		}
-		else if ((counter == 1 || counter == 2) && nextChar == ',')
-		{
+		// if we have one operand or two followed by a comma then we are expecting another operand
+		else if ((counter == 1 || counter == 2) && nextChar == ','){
 			if (!words[0].empty())
 				counter++;
 			nextChar = line.front();
-			while (!line.empty())
-			{
+			while (!line.empty()){
 				if (isalnum(nextChar))
 					break;
 				else if (nextChar != ' ' && nextChar != '\t')
@@ -351,8 +323,8 @@ int readLine(ifstream &inputFile, string *words)
 				nextChar = line.front();
 			}
 		}
-		else if (counter < 4 && (isalnum(nextChar) || nextChar == '(' || nextChar == ')' || nextChar == '.'))
-		{
+		// If valid then add it to words
+		else if (counter < 4 && (isalnum(nextChar) || nextChar == '.')){
 			words[counter].push_back(nextChar);
 		}
 		else
@@ -363,36 +335,37 @@ int readLine(ifstream &inputFile, string *words)
 	return 1;
 }
 
+// In this function we analyze the instruction
 // returns -1 for wrong syntax instruction,
 // 1 for meaningful instruction
 int readIns(ifstream &inputFile, string *words, MemEntry &output)
 {
-	for (int i = 0; i < 4; i++)
-	{
+	// Convert all words to upper case
+	// we have maximum 4 words in each line
+	for (int i = 0; i < 4; i++){
 		for (int j = 0; j < words[i].length(); j++)
-		{
 			words[i][j] = toupper(words[i][j]);
-		}
 	}
+	// Initialize all the instruction fields with dummy values
 	string opcode, immediate = "", Rt = "000", Rs = "000", Rd = "000", unused ="0", isImm = "0";
 	string operands[3];
+	// Get the opcode
 	opcode = To_OPcode(words[0], operands);
 	if (opcode == "Invalid")
-	{
 		return -1;
-	}
+
 	for (int i = 0; i < 3; i++)
 	{
-        // add r1, 
-        // missmatch between operands and words (count of operands)
+        // Missmatch between operands and words (count of operands)
+        // Example: ADD R1, 
 		if (operands[i].empty() != words[i + 1].empty())
-		{
 			return -1;
-		}
-		if (!operands[i].empty() && !words[i + 1].empty())
-		{
-			for (int j = 0; j < operands[i].length(); j++)
-			{
+		// If register is used then get its index
+		// Example: ADD R1, R2 (get index of R1 and R2)
+		// ELSE if immediate is used then convert it to binary
+		// Example: ADD R1, 0x10 (get index of R1 and convert 10 to binary)
+		if (!operands[i].empty() && !words[i + 1].empty()){
+			for (int j = 0; j < operands[i].length(); j++){
 				if (operands[i][j] == 'S')
 					Rs = Get_Regitser_Index(words[i + 1]);
 				else if (operands[i][j] == 'D')
@@ -401,24 +374,14 @@ int readIns(ifstream &inputFile, string *words, MemEntry &output)
 					Rt = Get_Regitser_Index(words[i + 1]);
 				else if (operands[i][j] == 'I')
 					immediate = HexToBin(words[i + 1]);
-				// else if (operands[i][j] == 'O')
-				// {
-				// 	immediate = HexToBin(words[i + 1].substr(0, words[i + 1].find('(')));
-				// 	Rt = Get_Regitser_Index(words[i + 1].substr(words[i + 1].find('(') + 1, words[i + 1].find(')') - words[i + 1].find('(') - 1));
-				// 	if (words[i + 1].find(')') == words[i + 1].length() - 2)
-				// 	{
-				// 		return -1;
-				// 	}
-				// }
 			}
 		}
 	}
+	// If any of D, S, T, I is invalid then the instruction is invalid
 	if (Rs == "Invalid" || Rd == "Invalid" || Rt == "Invalid" || immediate == "Invalid")
-	{
 		return -1;
-	}
-	// if (!immediateTemp.empty())
-	// 	immediate = immediateTemp;
+	// If the instruction use immediate then it's 32 bits instruction meaning we will store it in 2 memory locations 
+	// If not then immediate will be empty string adding it wont affect the instruction and it will be stored in 1 memory location
 	if(!immediate.empty()){
         cout << "immediate: " << immediate << endl;
         isImm = "1";
@@ -427,124 +390,128 @@ int readIns(ifstream &inputFile, string *words, MemEntry &output)
 	return 1;
 }
 
-// returns -1 for wrong syntax instruction,
+// Function that takes a string and returns the first number in it
+void Get_Number(string str, string &number){
+	number = "";
+	for (int i = 0; i < str.length(); i++){
+		if (isalnum(str[i]))
+			number.push_back(str[i]);
+		else
+			return;
+	}
+}
+
+// This function determines where will the instruction be stored in memory
+// Returns -1 for wrong syntax instruction,
 // 0 for empty or commented lines,
 // 1 for meaningful instruction
-
-int writeInMem(ifstream &inputFile, MemEntry &output, int &currentAddress, int &lineNum)
-{
-
-	// parsing
+int writeInMem(ifstream &inputFile, MemEntry &output, int &currentAddress, int &lineNum){
+	// Parsing
 	string words[4];
 	int outcome;
-	do
-	{
+	// Skip empty spaces (outcome == 0 means empty line or comment check "readLine" function)
+	do{
 		lineNum++;
 		outcome = readLine(inputFile, words);
 	} while (outcome == 0 && inputFile);
+	// If we reached the end of the file then return 0
 	if (!inputFile)
 		return 0;
+	// If we have a wrong syntax then return -1
 	if (outcome == -1)
-	{
 		return -1;
-	}
-	for (int i = 0; i < 4; i++)
-	{
+	// Convert all words to upper case
+	for (int i = 0; i < 4; i++){
 		for (int j = 0; j < words[i].length(); j++)
-		{
 			words[i][j] = toupper(words[i][j]);
-		}
 	}
 
-	// making sense of what we parsed
+	// If the instruction is ORG then we will change the current address
 	if (words[0] == ".ORG")
 	{
 		stringstream ss;
+		// Convert the address to hex
 		ss << hex << words[1];
+		// Store the address in currentAddress
 		ss >> output.index;
 		cout << "Instruction Index: " << output.index << endl;
+		// ORG dosen't have ant operands but the address
 		if (!words[2].empty() || !words[3].empty())
-		{
 			return -1;
-		}
-		if (output.index <= 2 && output.index >= 0)
-		{
+		// Get the number to store in memory if the address is 0 to 2
+		if (output.index <= 2 && output.index >= 0){
+			// Example: .ORG 0
+			//  		20
+			// This will store 20 in memory location 0
 			string number;
 			lineNum++;
 			getline(inputFile, number, '\n');
+			Get_Number(number, number);
 			output.value = HexToBin(number);
 			if (output.value == "Invalid")
-			{
 				return -1;
-			}
 			return 1;
 		}
-		else
-		{
+		// Else Is it meaningful instruction?
+		else{
 			string new_words[4];
 			int outcome;
-			do
-			{
+			do{
 				lineNum++;
 				outcome = readLine(inputFile, new_words);
 			} while (outcome == 0 && inputFile);
 			if (!inputFile)
 				return 0;
 			if (outcome == -1)
-			{
 				return -1;
-			}
 			if (readIns(inputFile, new_words, output) == -1)
-			{
 				return -1;
-			}
 			return 1;
 		}
 	}
-    // if no org write in the next address
-	else
-	{
+    // In case we don't have ORG then we will store the instruction in the current address + 1
+	else{
 		output.index = currentAddress + 1;
 		if (readIns(inputFile, words, output) == -1)
-		{
 			return -1;
-		}
 		return 1;
 	}
 }
-//input, output
+
+// To run the program
+// g++ Assembler.cpp -o Assembler.exe
+// .\Assembler.exe TestCase.txt, output.txt
 int main(int argc, char *argv[])
 {
 	map<int, string> Memory;
-	if (argc != 3)
-	{
+	if (argc != 3){
 		cout << "Invalid Inputs" << endl;
 		return 0;
 	}
 	ifstream inputFile(argv[1]);
-	if (!inputFile)
-	{
+	if (!inputFile){
 		cout << "Invalid Input File" << endl;
 		return 0;
 	}
+	// Setting current address with any Hex value
 	int currentAddress = 0x1000;
 	int lineNum = 0;
     MemEntry output;
-	while (inputFile)
-	{
+	while (inputFile){
 		currentAddress = output.index;
         int state = writeInMem(inputFile, output, currentAddress, lineNum);
-		if (state == 1)
-		{
+		if (state == 1){
+			// Insert 16 bit always
 			Memory.insert(pair<int, string>(output.index, output.value.substr(0,16)));
-            if(output.value.length() == 32){
+            // If its 32 bit then insert the other 16 bits
+			if(output.value.length() > 16){
                 output.index++;
 			    Memory.insert(pair<int, string>(output.index, output.value.substr(16,16)));
             }
             cout << "At Index: " << output.index << ", Instruction: " << output.value << endl;
         }
-		else if (state == -1)
-		{
+		// This gets the line with the error
+		else if (state == -1){
 			cout << "Error at line " << lineNum << endl;
 			inputFile.close();
 			return 0;
@@ -553,125 +520,22 @@ int main(int argc, char *argv[])
 	inputFile.close();
 	ofstream outputFile;
 	outputFile.open(argv[2]);
-	if (!outputFile)
-	{
+	if (!outputFile){
 		cout << "Invalid Output File" << endl;
 		outputFile.close();
 		return 0;
 	}
-    // write the do file
-	// outputFile << "vsim -gui work.cpu\n"
-	// 		   << "add wave -position insertpoint  \\\n"
-	// 		   << "sim:/cpu/Addressbuffet \\\n"
-	// 		   << "sim:/cpu/Addressbufmem \\\n"
-	// 		   << "sim:/cpu/Addresssig \\\n"
-	// 		   << "sim:/cpu/ALU_Result \\\n"
-	// 		   << "sim:/cpu/ALUEnablesig \\\n"
-	// 		   << "sim:/cpu/Carry \\\n"
-	// 		   << "sim:/cpu/Checksig \\\n"
-	// 		   << "sim:/cpu/ChecksigEx \\\n"
-	// 		   << "sim:/cpu/clk \\\n"
-	// 		   << "sim:/cpu/D_IMD \\\n"
-	// 		   << "sim:/cpu/DataINbuf \\\n"
-	// 		   << "sim:/cpu/Decode_Flush \\\n"
-	// 		   << "sim:/cpu/DecSPsig \\\n"
-	// 		   << "sim:/cpu/DecSPsigEx \\\n"
-	// 		   << "sim:/cpu/Enable \\\n"
-	// 		   << "sim:/cpu/ex_flush \\\n"
-	// 		   << "sim:/cpu/Execute_Flush \\\n"
-	// 		   << "sim:/cpu/Fetch_Jump \\\n"
-	// 		   << "sim:/cpu/HDU_EN \\\n"
-	// 		   << "sim:/cpu/HDU_HLT \\\n"
-	// 		   << "sim:/cpu/HDU_Ins_Out \\\n"
-	// 		   << "sim:/cpu/HDU_Load_Use \\\n"
-	// 		   << "sim:/cpu/HDU_Swap_Hazard \\\n"
-	// 		   << "sim:/cpu/HDU_w_DE_Imm \\\n"
-	// 		   << "sim:/cpu/HDU_w_DE_OpCode \\\n"
-	// 		   << "sim:/cpu/HDU_w_DE_RD \\\n"
-	// 		   << "sim:/cpu/HDU_w_DE_RS \\\n"
-	// 		   << "sim:/cpu/HDU_w_DE_RT \\\n"
-	// 		   << "sim:/cpu/Immediatesig \\\n"
-	// 		   << "sim:/cpu/ImmediatesigEx \\\n"
-	// 		   << "sim:/cpu/Immsig \\\n"
-	// 		   << "sim:/cpu/ImmsigEx \\\n"
-	// 		   << "sim:/cpu/IncSPsig \\\n"
-	// 		   << "sim:/cpu/IncSPsigEx \\\n"
-	// 		   << "sim:/cpu/Ins \\\n"
-	// 		   << "sim:/cpu/intr \\\n"
-	// 		   << "sim:/cpu/intrinssig \\\n"
-	// 		   << "sim:/cpu/intrsig \\\n"
-	// 		   << "sim:/cpu/Jump_Address \\\n"
-	// 		   << "sim:/cpu/Jumpsig \\\n"
-	// 		   << "sim:/cpu/JumpsigEx \\\n"
-	// 		   << "sim:/cpu/MemDataIn \\\n"
-	// 		   << "sim:/cpu/MemDataOut \\\n"
-	// 		   << "sim:/cpu/MEMRsig \\\n"
-	// 		   << "sim:/cpu/MEMRsigEx \\\n"
-	// 		   << "sim:/cpu/Memsig \\\n"
-	// 		   << "sim:/cpu/MEMW \\\n"
-	// 		   << "sim:/cpu/MEMWsig \\\n"
-	// 		   << "sim:/cpu/MEMWsigEx \\\n"
-	// 		   << "sim:/cpu/Modesig \\\n"
-	// 		   << "sim:/cpu/Negative \\\n"
-	// 		   << "sim:/cpu/Op1sig \\\n"
-	// 		   << "sim:/cpu/Op1sigfwd \\\n"
-	// 		   << "sim:/cpu/Op2sig \\\n"
-	// 		   << "sim:/cpu/Op2sigfwd \\\n"
-	// 		   << "sim:/cpu/OpCodesig \\\n"
-	// 		   << "sim:/cpu/Original_Jump_EM \\\n"
-	// 		   << "sim:/cpu/PortReadsig \\\n"
-	// 		   << "sim:/cpu/PortReadsigEx \\\n"
-	// 		   << "sim:/cpu/PortWritesig \\\n"
-	// 		   << "sim:/cpu/PortWritesigEx \\\n"
-	// 		   << "sim:/cpu/RDsig \\\n"
-	// 		   << "sim:/cpu/RDsigbuf \\\n"
-	// 		   << "sim:/cpu/RDsigbuf2 \\\n"
-	// 		   << "sim:/cpu/RDsigbufend \\\n"
-	// 		   << "sim:/cpu/RegWritesig \\\n"
-	// 		   << "sim:/cpu/RegWritesigend \\\n"
-	// 		   << "sim:/cpu/RegWritesigEx \\\n"
-	// 		   << "sim:/cpu/Result \\\n"
-	// 		   << "sim:/cpu/Resultsig \\\n"
-	// 		   << "sim:/cpu/RET \\\n"
-	// 		   << "sim:/cpu/RSsig \\\n"
-	// 		   << "sim:/cpu/RSsigbuf \\\n"
-	// 		   << "sim:/cpu/rst \\\n"
-	// 		   << "sim:/cpu/rstsig \\\n"
-	// 		   << "sim:/cpu/RSval \\\n"
-	// 		   << "sim:/cpu/RSvalbuf \\\n"
-	// 		   << "sim:/cpu/RSvalbuf2 \\\n"
-	// 		   << "sim:/cpu/RTsig \\\n"
-	// 		   << "sim:/cpu/RTsigbuf \\\n"
-	// 		   << "sim:/cpu/RTval \\\n"
-	// 		   << "sim:/cpu/SETCsig \\\n"
-	// 		   << "sim:/cpu/Unbuffered_DataOut \\\n"
-	// 		   << "sim:/cpu/Zero" << endl;
-
 	map<int, string>::iterator itr = Memory.begin();
-	for (itr; itr != Memory.end(); ++itr)
-	{
-        
-        outputFile << "mem load -filltype value -filldata 16\'b"
-                    << itr->second << " -fillradix binary /cpu/mem/Memory("
-                    << itr->first << ")" << endl;
-
+	for (itr; itr != Memory.end(); ++itr){
+        outputFile << itr->second << " || Memory Location("<< itr->first << ")" << endl;
 		map<int, string>::iterator itrNext = itr;
 		++itrNext;
-		if (itrNext->first == itr->first)
-		{
+		if (itrNext->first == itr->first){
 			cout << "Error, Two instructions in same address" << endl;
 			outputFile.close();
 			return 0;
 		}
 	}
-	// outputFile << "force -freeze sim:/cpu/clk 1 0, 0 {50 ps} -r 100\n"
-	// 		   << "force -freeze sim:/cpu/intr 0 0\n"
-	// 		   << "force -freeze sim:/cpu/rst 0 0\n"
-	// 		   << "run\n"
-	// 		   << "force -freeze sim:/cpu/rst 1 0\n"
-	// 		   << "run\n"
-	// 		   << "force -freeze sim:/cpu/rst 0 0\n"
-	// 		   << "run 300" << endl;
 	outputFile.close();
 	return 0;
 }
