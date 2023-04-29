@@ -190,7 +190,7 @@ string To_OPcode(string command, string *Operands){
 		Operands[0] = "D";
 		Operands[1] = "T";
 		Operands[2] = "I";
-        return "";
+        return "01101";
 	}
     /******************************/
 	else if (command == "PUSH"){
