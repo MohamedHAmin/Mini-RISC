@@ -139,7 +139,7 @@ string To_OPcode(string command, string *Operands){
 	}
 	else if (command == "DEC"){
 		Operands[0] = "D";
-		Operands[1] = "S";
+		Operands[1] = "T";
 		Operands[2] = "";
         return "00101";
 	}
