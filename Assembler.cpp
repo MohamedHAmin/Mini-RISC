@@ -139,7 +139,7 @@ string To_OPcode(string command, string *Operands){
 	}
 	else if (command == "DEC"){
 		Operands[0] = "D";
-		Operands[1] = "T";
+		Operands[1] = "S";
 		Operands[2] = "";
         return "00101";
 	}
@@ -188,7 +188,7 @@ string To_OPcode(string command, string *Operands){
 	}
 	else if (command == "IADD"){
 		Operands[0] = "D";
-		Operands[1] = "T";
+		Operands[1] = "S";
 		Operands[2] = "I";
         return "01101";
 	}
@@ -386,7 +386,7 @@ int readIns(ifstream &inputFile, string *words, MemEntry &output)
         cout << "immediate: " << immediate << endl;
         isImm = "1";
     }
-    output.value = opcode + Rd + Rt + Rs + unused + isImm + immediate;
+    output.value = opcode + Rs + Rt + Rd + unused + isImm + immediate;
 	return 1;
 }
 
@@ -480,7 +480,7 @@ int writeInMem(ifstream &inputFile, MemEntry &output, int &currentAddress, int &
 
 // To run the program
 // g++ Assembler.cpp -o Assembler.exe
-// .\Assembler.exe TestCase.txt, output.txt
+// .\Assembler.exe TestCase.txt output.mem
 int main(int argc, char *argv[])
 {
 	map<int, string> Memory;
@@ -526,8 +526,12 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	map<int, string>::iterator itr = Memory.begin();
+	outputFile 	<< "// memory data file (do not edit the following line - required for mem load use)" 
+				<< endl << "// instance=/cpu/fetch1/line__56/Cache"
+				<< endl << "// format=mti addressradix=d dataradix=b version=1.0 wordsperline=1"
+				<< endl;
 	for (itr; itr != Memory.end(); ++itr){
-        outputFile << itr->second << " || Memory Location("<< itr->first << ")" << endl;
+        outputFile << itr->first << ": " << itr->second /*<< " || Memory Location("<< itr->first << ")" */<< endl;
 		map<int, string>::iterator itrNext = itr;
 		++itrNext;
 		if (itrNext->first == itr->first){
