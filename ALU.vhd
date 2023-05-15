@@ -44,7 +44,9 @@ BEGIN
 		ELSE                                                                           													
 			'1' WHEN (A < B) AND (op = ("01011") OR op = ("00101"))  -- SUB/ DEC      
 		ELSE
-			'1' WHEN SETC = '1'
+			'1' WHEN op = ("00001") -- SETC
+		ELSE
+			'0' WHEN op =("00010") -- CLRC
 		ELSE '0';
 
 	Negative <= Result(15);

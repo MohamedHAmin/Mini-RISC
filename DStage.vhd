@@ -32,13 +32,16 @@ ENTITY Decode IS
         MemTOReg : OUT STD_LOGIC_vector(1 DOWNTO 0);
         MemAddressSelector : OUT STD_LOGIC_vector(1 DOWNTO 0); 
         MemDataSelector : OUT STD_LOGIC;
+        LDM : OUT STD_LOGIC;
 
         Register1 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         Register2 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         Immediate : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         AddressDestination : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         JmpAddr : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPort: OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 		);
 		
 END ENTITY Decode;
@@ -58,7 +61,8 @@ ARCHITECTURE DecodeArch OF Decode IS
         MemTOReg : OUT STD_LOGIC_vector(1 DOWNTO 0);
         RegAddressSelector : OUT STD_LOGIC; 
         MemAddressSelector : OUT STD_LOGIC_vector(1 DOWNTO 0);
-        MemDataSelector : OUT STD_LOGIC 
+        MemDataSelector : OUT STD_LOGIC;
+        LDM : OUT STD_LOGIC
     );
     END COMPONENT;
 
@@ -91,21 +95,28 @@ ARCHITECTURE DecodeArch OF Decode IS
 	SIGNAL RegAddressSelectorSig : STD_LOGIC := '0';
 	SIGNAL MemAddressSelectorSig : STD_LOGIC_VECTOR(1 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL MemDataSelectorSig : STD_LOGIC := '0';
+    SIGNAL LDMsig : STD_LOGIC := '0';
 
 	SIGNAL input2RegFile : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL Reg1Value : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL Reg2Value : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 
-    signal D_E_Buffer_input: std_logic_vector(81 DOWNTO 0);
-    signal D_E_Buffer_result: std_logic_vector(81 DOWNTO 0);
+    SIGNAL OutPortValueIn: STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+    signal D_E_Buffer_input: std_logic_vector(98 DOWNTO 0);
+    signal D_E_Buffer_result: std_logic_vector(98 DOWNTO 0);
 BEGIN
-	ctrl : CU PORT MAP(Family, OpCode, IsImmediate, ALUsrcSsig, ALUopSig, BranchSig, MemRsig, MemWsig, RegRsig, MemToRegSig, RegAddressSelectorSig, MemAddressSelectorSig, MemDataSelectorSig);
+	ctrl : CU PORT MAP(Family, OpCode, IsImmediate, ALUsrcSsig, ALUopSig, BranchSig, MemRsig, MemWsig, RegRsig, MemToRegSig, RegAddressSelectorSig, MemAddressSelectorSig, MemDataSelectorSig, LDMsig);
 	
     input2RegFile <= AddRD when RegAddressSelectorSig = '1' else AddRT;
     RegistFile : RegFile PORT MAP(AddRS, input2RegFile, write_back_address, write_back_value, write_back_RegW, clk, Reg1Value, Reg2Value);
 	
-    D_E_Buffer_input <= InPortValueIN & ALUsrcSsig & ALUopSig & BranchSig & MemRsig & MemWsig & RegRsig & MemToRegSig & MemAddressSelectorSig & MemDataSelectorSig & Reg1Value & Reg2Value & Imm & AddRD;
-    Decode_Execute_buffer : Reg GENERIC MAP (82) PORT MAP (clk,rst,Enable_DBuffer,D_E_Buffer_input,D_E_Buffer_result);
+    OutPortValueIn <= Reg1Value WHEN Family = "00" AND OpCode = "111" ELSe (OTHERS => '0');
+
+    D_E_Buffer_input <= LDM & OutPortValueIn & InPortValueIN & ALUsrcSsig & ALUopSig & BranchSig & MemRsig & MemWsig & RegRsig & MemToRegSig & MemAddressSelectorSig & MemDataSelectorSig & Reg1Value & Reg2Value & Imm & AddRD;
+    Decode_Execute_buffer : Reg GENERIC MAP (99) PORT MAP (clk,rst,Enable_DBuffer,D_E_Buffer_input,D_E_Buffer_result);
+    LDM <= D_E_Buffer_result(98);
+    OutPort <= D_E_Buffer_result(97 DOWNTO 82);
     InPortValueOUT <= D_E_Buffer_result(81 DOWNTO 66);
     ALUsrc <= D_E_Buffer_result(65);
     ALUop <= D_E_Buffer_result(64 DOWNTO 60);

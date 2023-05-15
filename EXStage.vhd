@@ -23,6 +23,9 @@ ENTITY Execute IS
         MemTOReg : IN STD_LOGIC_vector(1 DOWNTO 0);
         MemAddressSelector : IN STD_LOGIC_vector(1 DOWNTO 0); 
         MemDataSelector : IN STD_LOGIC;
+        LDM : IN STD_LOGIC;
+
+        OutPorValuetIN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 
         MEMReadOut : OUT STD_LOGIC;
 		MEMWriteOut : OUT STD_LOGIC;
@@ -33,11 +36,13 @@ ENTITY Execute IS
 
         CCR_Flags : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
 
-        ALUOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+        ALUOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0); -- either ALU output or Immediate value
         RSourceOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         RDestOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         DestAddrOut : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 	);
 END ENTITY Execute;
 
@@ -67,8 +72,8 @@ ARCHITECTURE ExArch OF Execute IS
     SIGNAL ALUOutsig : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 	SIGNAL ALU_C, ALU_Z, ALU_N : STD_LOGIC := '0';
 
-	SIGNAL E_M1_Buffer_input: std_logic_vector(74 DOWNTO 0);
-    SIGNAL E_M1_Buffer_result: std_logic_vector(74 DOWNTO 0);
+	SIGNAL E_M1_Buffer_input: std_logic_vector(90 DOWNTO 0);
+    SIGNAL E_M1_Buffer_result: std_logic_vector(90 DOWNTO 0);
     SIGNAL tempCCR : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
     
 BEGIN
@@ -77,12 +82,16 @@ BEGIN
 
     ALU1 : ALU PORT MAP(RSource, op2Sig, ALUOp, '0', ALUOutsig, ALU_C, ALU_Z, ALU_N);
 
+    --To handle the case of LDM
+    AluOutsig <= Imm_16 when LDM = '1' else ALUOutsig;
+
     tempCCR <= (ALU_C & ALU_N & ALU_Z );
     
     CCR : Reg GENERIC MAP(3) PORT MAP (clk, rst, Enable_EBuffer, tempCCR, CCR_Flags);
 
-    E_M1_Buffer_input <= InPortValueIN & MEMRead & MEMWrite & RegWrite & MemTOReg & MemAddressSelector & MemDataSelector & ALUOutsig & RSource & RDest & DestAddr;
-    Execute_Mem1_buffer : Reg GENERIC MAP(75) PORT MAP (clk, rst, Enable_EBuffer, E_M1_Buffer_input, E_M1_Buffer_result);
+    E_M1_Buffer_input <= OutPorValuetIN &InPortValueIN & MEMRead & MEMWrite & RegWrite & MemTOReg & MemAddressSelector & MemDataSelector & ALUOutsig & RSource & RDest & DestAddr;
+    Execute_Mem1_buffer : Reg GENERIC MAP(91) PORT MAP (clk, rst, Enable_EBuffer, E_M1_Buffer_input, E_M1_Buffer_result);
+    OutPortValueOUT <= E_M1_Buffer_result(90 DOWNTO 75);
     InPortValueOUT <= E_M1_Buffer_result(74 DOWNTO 59);
     MEMReadOut <= E_M1_Buffer_result(58);
     MEMWriteOut <= E_M1_Buffer_result(57);

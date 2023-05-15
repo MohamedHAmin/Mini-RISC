@@ -23,7 +23,7 @@ RTI							# this instruction should be at address 25h
 
 .org 100
 IN R1						# this instruction should be at address 100h
-INC R1, R1						# this instruction should be at address 101h
+INC R1, R1					# this instruction should be at address 101h
 PUSH R1						# this instruction should be at address 102h
 POP R2						# this instruction should be at address 103h
 LDM R3, 30					# this instruction should be at address 104h & 105h, 30 is 30h 
@@ -31,4 +31,4 @@ JMP  R3						# this instruction should be at address 106h
 
 
 .org 30
-NOT  R4, R4						# this instruction should be at address 30H
+NOT  R4, R4					# this instruction should be at address 30H

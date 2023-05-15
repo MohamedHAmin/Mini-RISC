@@ -28,9 +28,13 @@ ENTITY CU IS
         -- of the data memory, the selector is 2 bits which are opcode(2) and opcode(1)
         -- if 00 then choose SP (Push/Pop/Call/Ret inst.), if 01 choose Rsrc1 (Load inst.), if 10 choose Rsrc2 (Store inst.)
 
-        MemDataSelector : OUT STD_LOGIC --control signal for the mux selector that selects the data
+        MemDataSelector : OUT STD_LOGIC; --control signal for the mux selector that selects the data
         -- of the data memory, the selector is 1 bit which is family(0)
         -- of 0 then choose Rsrc1 (Push/Store inst.), if 1 choose PC + 1 (Call inst.)
+
+        LDM : OUT STD_LOGIC -- control signal for the mux selector that selects the data out in execute stage 
+        -- either from the ALU or the immediate value based on if the istruction is LDM or not
+        -- if 0 then choose ALU, if 1 choose immediate value
 );
 END ENTITY CU;
 
@@ -68,4 +72,7 @@ BEGIN
     RegAddressSelector <= Family(1) and Family(0);
     MemAddressSelector <= OpCode(2) & OpCode(1);
     MemDataSelector <= Family(0);
+
+    LDM <= '1' when (Family = "10" and OpCode = "010") -- when LDM
+    else '0';
 END CUArch;

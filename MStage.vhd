@@ -23,12 +23,16 @@ ENTITY MEMWB IS
 
         PC_signal : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 
+        OutPortValueIN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+
         RegisterWrite : OUT STD_LOGIC;
         MemToRegister : OUT STD_LOGIC_vector(1 DOWNTO 0);
         MemDataOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         ALUOutput : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         DestinationAddress : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 	);
 END ENTITY MEMWB;
 
@@ -73,17 +77,19 @@ ARCHITECTURE MEMWBArch OF MEMWB IS
     SIGNAL RSourceSig : STD_LOGIC_VECTOR(15 DOWNTO 0)            := (OTHERS => '0');
     SIGNAL RDestSig : STD_LOGIC_VECTOR(15 DOWNTO 0)              := (OTHERS => '0');
     SIGNAL DestAddrSig : STD_LOGIC_VECTOR(2 DOWNTO 0)            := (OTHERS => '0');
+    SIGNAL OutPortValueSig : STD_LOGIC_VECTOR(15 DOWNTO 0)       := (OTHERS => '0');
 
-    SIGNAL M1_M2_Buffer_input: std_logic_vector(74 DOWNTO 0);
-    SIGNAL M1_M2_Buffer_result: std_logic_vector(74 DOWNTO 0);
+    SIGNAL M1_M2_Buffer_input: std_logic_vector(90 DOWNTO 0);
+    SIGNAL M1_M2_Buffer_result: std_logic_vector(90 DOWNTO 0);
 
-    SIGNAL M2_WB_Buffer_input: std_logic_vector(53 DOWNTO 0);
-    SIGNAL M2_WB_Buffer_result: std_logic_vector(53 DOWNTO 0);
+    SIGNAL M2_WB_Buffer_input: std_logic_vector(69 DOWNTO 0);
+    SIGNAL M2_WB_Buffer_result: std_logic_vector(69 DOWNTO 0);
 
 BEGIN
 
-    M1_M2_Buffer_input <= InPortValueIN & MEMReadIN & MEMWriteIN & RegWriteIN & MemTORegIN & MemDataSelectorIN & MemAddressSelectorIN & ALUIN & RSourceIN & RDestIN & DestAddrIN;
-    Mem1_Mem2_buffer : Reg GENERIC MAP (75) PORT MAP (clk, rst, Enable_M1Buffer, M1_M2_Buffer_input, M1_M2_Buffer_result);
+    M1_M2_Buffer_input <= OutPortValueIN & InPortValueIN & MEMReadIN & MEMWriteIN & RegWriteIN & MemTORegIN & MemDataSelectorIN & MemAddressSelectorIN & ALUIN & RSourceIN & RDestIN & DestAddrIN;
+    Mem1_Mem2_buffer : Reg GENERIC MAP (91) PORT MAP (clk, rst, Enable_M1Buffer, M1_M2_Buffer_input, M1_M2_Buffer_result);
+    OutPortValueSig <= M1_M2_Buffer_result(90 DOWNTO 75);
     InPortValueSig <= M1_M2_Buffer_result(74 DOWNTO 59);
     MEMReadSig <= M1_M2_Buffer_result(58);
     MEMWriteSig <= M1_M2_Buffer_result(57);
@@ -98,17 +104,24 @@ BEGIN
 
     Data_Signal <= RSourceSig WHEN MemDataSelectorSig = '0' ELSE STD_LOGIC_VECTOR(unsigned(PC_signal) + 1);
     
+    -- If SP then sp+=1 when pop
+    SP_OUT <= STD_LOGIC_VECTOR(unsigned(SP_OUT) + 1) WHEN MemAddressSelectorSig = "00" AND MEMReadSig = '1' ELSE SP_OUT;
+    
     Address_Signal <= SP_OUT(9 DOWNTO 0)    WHEN MemAddressSelectorSig = "00"            -- (Push/Pop/Call/Ret inst.)
         ELSE RSourceSig(9 DOWNTO 0)         WHEN MemAddressSelectorSig = "01"            -- (Load inst.)
         ELSE RDestSig(9 DOWNTO 0)           WHEN MemAddressSelectorSig = "10";           -- (Store inst.)
-
+    
 
     DataMemory : Memory PORT MAP (clk, MEMWriteSig, MEMReadSig, Address_Signal, Data_Signal, MemDataOutSig, SP_IN);
 
+    -- If SP then sp-=1 when push
+    SP_IN <= STD_LOGIC_VECTOR(unsigned(SP_IN) - 1) WHEN MemAddressSelectorSig = "00" AND MEMWriteSig = '1' ELSE SP_IN;
+
     SP_Register : Reg GENERIC MAP (16) PORT MAP (clk, rst, '1', SP_IN, SP_OUT);
 
-    M2_WB_Buffer_input <= InPortValueSig & RegWriteSig & MemTORegSig & MemDataOutSig & ALUSig & DestAddrSig;
-    Mem2_WB_buffer : Reg GENERIC MAP (54) PORT MAP (clk, rst, Enable_M2Buffer, M2_WB_Buffer_input, M2_WB_Buffer_result);
+    M2_WB_Buffer_input <= OutPortValueSig & InPortValueSig & RegWriteSig & MemTORegSig & MemDataOutSig & ALUSig & DestAddrSig;
+    Mem2_WB_buffer : Reg GENERIC MAP (70) PORT MAP (clk, rst, Enable_M2Buffer, M2_WB_Buffer_input, M2_WB_Buffer_result);
+    OutPortValueOUT <= M2_WB_Buffer_result(69 DOWNTO 54);
     InPortValueOUT <= M2_WB_Buffer_result(53 DOWNTO 38);
     RegisterWrite <= M2_WB_Buffer_result(37);
     MemToRegister <= M2_WB_Buffer_result(36 DOWNTO 35);

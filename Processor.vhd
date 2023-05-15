@@ -12,7 +12,9 @@ ENTITY CPU IS
 		Result : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
 		Carry : OUT STD_LOGIC;
 		Zero : OUT STD_LOGIC;
-		Negative : OUT STD_LOGIC);
+		Negative : OUT STD_LOGIC;
+        OutPort : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+    );
 END ENTITY CPU;
 
 ARCHITECTURE CPUArch OF CPU IS
@@ -70,13 +72,16 @@ ARCHITECTURE CPUArch OF CPU IS
         MemTOReg : OUT STD_LOGIC_vector(1 DOWNTO 0);
         MemAddressSelector : OUT STD_LOGIC_vector(1 DOWNTO 0); 
         MemDataSelector : OUT STD_LOGIC;
+        LDM: OUT STD_LOGIC;
 
         Register1 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         Register2 : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         Immediate : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         AddressDestination : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
         JmpAddr : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPort: OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 		);
 		
     END COMPONENT;
@@ -102,6 +107,9 @@ ARCHITECTURE CPUArch OF CPU IS
         MemTOReg : IN STD_LOGIC_vector(1 DOWNTO 0);
         MemAddressSelector : IN STD_LOGIC_vector(1 DOWNTO 0); 
         MemDataSelector : IN STD_LOGIC;
+        LDM: IN STD_LOGIC;
+
+        OutPorValuetIN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 
         MEMReadOut : OUT STD_LOGIC;
 		MEMWriteOut : OUT STD_LOGIC;
@@ -116,7 +124,9 @@ ARCHITECTURE CPUArch OF CPU IS
         RSourceOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         RDestOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         DestAddrOut : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 	);
     END COMPONENT;
 
@@ -141,12 +151,16 @@ ARCHITECTURE CPUArch OF CPU IS
 
         PC_signal : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
 
+        OutPortValueIN : IN STD_LOGIC_VECTOR(15 DOWNTO 0);
+
         RegisterWrite : OUT STD_LOGIC;
         MemToRegister : OUT STD_LOGIC_vector(1 DOWNTO 0);
         MemDataOut : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         ALUOutput : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
         DestinationAddress : OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
+        InPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
+
+        OutPortValueOUT : OUT STD_LOGIC_VECTOR(15 DOWNTO 0)
 	);
     END COMPONENT;
 
@@ -176,6 +190,8 @@ ARCHITECTURE CPUArch OF CPU IS
     SIGNAL Immediate_from_Decode : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
     SIGNAL DestAddr_from_Decode : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
     SIGNAL InPort_from_Decode : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL OutPort_from_Decode : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL LDM_from_Decode : STD_LOGIC := '0';
 
     SIGNAL MEMREADOut_from_Execute : STD_LOGIC := '0';
     SIGNAL MEMWRITEOut_from_Execute : STD_LOGIC := '0';
@@ -189,6 +205,7 @@ ARCHITECTURE CPUArch OF CPU IS
     SIGNAL DESTADDROUT_from_Execute : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
     SIGNAL CCR_FLAGS_from_Execute : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
     SIGNAL InPort_from_Execute : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL OutPort_from_Execute : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 
     SIGNAL RegisterWrite_from_MemWB : STD_LOGIC := '0';
     SIGNAL MemToRegister_from_MemWB : STD_LOGIC_vector(1 DOWNTO 0) := (OTHERS => '0');
@@ -196,6 +213,7 @@ ARCHITECTURE CPUArch OF CPU IS
     SIGNAL ALUOutput_from_MemWB : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
     SIGNAL DestinationAddress_from_MemWB : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
     SIGNAL InPort_from_MemWB : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
+    SIGNAL OutPort_from_MemWB : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
 
     SIGNAL WB_value_Sig : STD_LOGIC_VECTOR(15 DOWNTO 0) := (OTHERS => '0');
     SIGNAL WB_address_Sig : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
@@ -219,27 +237,29 @@ BEGIN
                               Target_From_Fetch, Dest_From_Fetch, Immediate_From_Fetch, WB_value_Sig, WB_address_Sig, 
                               RegisterWrite_from_MemWB, ALUsrc_from_Decode, ALUop_from_Decode, Branch_from_Decode,
                               MEMRead_from_Decode, MEMWrite_from_Decode, RegWrite_from_Decode, MemToReg_from_Decode,
-                              MemAddressSelector_from_Decode, MemDataSelector_from_Decode, Register1_from_Decode,
-                              Register2_from_Decode, Immediate_from_Decode, DestAddr_from_Decode, JmpAddrSig, InPort_from_Decode);
+                              MemAddressSelector_from_Decode, MemDataSelector_from_Decode, LDM_from_Decode, Register1_from_Decode,
+                              Register2_from_Decode, Immediate_from_Decode, DestAddr_from_Decode, JmpAddrSig, InPort_from_Decode, OutPort_from_Decode);
     
     execute1 : Execute PORT MAP (clk, rst, '1', InPort_from_Decode, Register1_from_Decode, Register2_from_Decode, Immediate_from_Decode, 
                                 DestAddr_from_Decode, ALUop_from_Decode, ALUsrc_from_Decode, Branch_from_Decode, 
                                 MEMRead_from_Decode, MEMWrite_from_Decode, RegWrite_from_Decode, MemToReg_from_Decode,
-                                MemAddressSelector_from_Decode, MemDataSelector_from_Decode, MEMREADOut_from_Execute,
+                                MemAddressSelector_from_Decode, MemDataSelector_from_Decode, LDM_from_Decode, OutPort_from_Decode, MEMREADOut_from_Execute,
                                 MEMWRITEOut_from_Execute, REGWRITEOut_from_Execute, MEMTOREGOut_from_Execute,
                                 MEMADDRESSSELECTOROut_from_Execute, MEMDATASELECTOROut_from_Execute, CCR_FLAGS_from_Execute,
-                                ALUOUT_from_Execute, RSOURCEOUT_from_Execute, RDESTOUT_from_Execute, DESTADDROUT_from_Execute, InPort_from_Execute);
+                                ALUOUT_from_Execute, RSOURCEOUT_from_Execute, RDESTOUT_from_Execute, DESTADDROUT_from_Execute, InPort_from_Execute, OutPort_from_Execute);
     
     memwb1 : MEMWB PORT MAP (clk, rst, '1', '1', InPort_from_Execute, MEMREADOut_from_Execute, MEMWRITEOut_from_Execute, REGWRITEOut_from_Execute,
                             MEMTOREGOut_from_Execute, MEMADDRESSSELECTOROut_from_Execute, MEMDATASELECTOROut_from_Execute,
                             ALUOUT_from_Execute, RSOURCEOUT_from_Execute, RDESTOUT_from_Execute, DESTADDROUT_from_Execute,
-                            PCSig , RegisterWrite_from_MemWB, MemToRegister_from_MemWB, MemDataOut_from_MemWB,
-                            ALUOutput_from_MemWB, DestinationAddress_from_MemWB, InPort_from_MemWB);
+                            PCSig, OutPort_from_Execute, RegisterWrite_from_MemWB, MemToRegister_from_MemWB, MemDataOut_from_MemWB,
+                            ALUOutput_from_MemWB, DestinationAddress_from_MemWB, InPort_from_MemWB, OutPort_from_MemWB);
 	
     Result <= ALUOUT_from_Execute;
     Carry <= CCR_FLAGS_from_Execute(2);
     Negative <= CCR_FLAGS_from_Execute(1);
     Zero <= CCR_FLAGS_from_Execute(0);
+    OutPort <= OutPort_from_MemWB;
+    
 
     -- PROCESS (rst, clk)
 	-- BEGIN
